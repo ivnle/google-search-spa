@@ -1,10 +1,10 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, jsonify
 from app import app
 import json
 
 @app.route('/search', methods=['GET'])
 def search():
-    return json.dumps("ping")
+    return json.dumps([{"name": "thunder name", "body": "thunder body"}])
     # data = request.args.get("name")
     # output = select_all_items(c, data)
     # return json.dumps(output)
