@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db
+from app import db, ma
 
 
 # class User(db.Model):
@@ -20,3 +20,8 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post {}>'.format(self.name)
+
+
+class PostSchema(ma.ModelSchema):
+    class Meta:
+        model = Post

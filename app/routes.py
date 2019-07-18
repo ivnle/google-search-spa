@@ -1,10 +1,19 @@
 from flask import render_template, flash, redirect, url_for, jsonify
 from app import app
-import json
+from app.models import Post, PostSchema
+
 
 @app.route('/search', methods=['GET'])
 def search():
-    return json.dumps([{"name": "thunder name", "body": "thunder body"}])
+    post = Post.query.all()
+    output = PostSchema(many=True).dump(post).data
+    return jsonify(output)
+
+
+    # return json.dumps([{"name": "thundername", "body": "thunder body"},
+    #                    {"name": "andreaname", "body": "andrea body"},
+    #                    {"name": "yaya", "body": "yayo"}])
+
     # data = request.args.get("name")
     # output = select_all_items(c, data)
     # return json.dumps(output)
