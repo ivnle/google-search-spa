@@ -11,14 +11,12 @@
     </template>
     
     <script>
-    
     export default {
       name: 'app',
     }
-    
     </script>
+
     <style>
-    
     #app {
       font-family: 'Avenir', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -28,5 +26,4 @@
       margin-top: 60px;
       text-decoration: none;
     }
-    
     </style>
