@@ -59,3 +59,12 @@ export function fetchSurvey (surveyId) {
     }, 300)
   })
 }
+
+export function saveSurveyResponse (surveyResponse) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("saving survey response...")
+      })
+      resolve()
+    }, 300)
+}

@@ -14,3 +14,4 @@ yarn-error.log*
 *.sln
 
 __pycache__
+.flaskenv
