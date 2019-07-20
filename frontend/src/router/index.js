@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Searchbox from '@/components/Searchbox'
 import Insert from '@/components/Insert'
 import Survey from '@/components/Survey'
+import NewSurvey from '@/components/NewSurvey'
 
 Vue.use(Router)
 
@@ -23,6 +24,12 @@ export default new Router({
       component: Searchbox
     },
     { path: '/insert',
-      component: Insert }
+      component: Insert
+    },
+    {
+      path: '/surveys',
+      name: 'NewSurvey',
+      component: NewSurvey
+    }
   ]
 })
