@@ -1,10 +1,8 @@
-// src/store/index.js
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// imports of AJAX functions go here
-import { fetchSurveys, fetchSurvey, saveSurveyResponse } from '@/api'
+// imports of AJAX functions will go here
+import { fetchSurveys, fetchSurvey, saveSurveyResponse, postNewSurvey } from '@/api'
 
 Vue.use(Vuex)
 
@@ -16,33 +14,36 @@ const state = {
 
 const actions = {
   // asynchronous operations
-  loadSurveys(context) {
+  loadSurveys (context) {
     return fetchSurveys()
       .then((response) => context.commit('setSurveys', { surveys: response }))
   },
-  loadSurvey(context, { id }) {
+  loadSurvey (context, { id }) {
     return fetchSurvey(id)
       .then((response) => context.commit('setSurvey', { survey: response }))
   },
-  addSurveyResponse(context) {
+  addSurveyResponse (context) {
     return saveSurveyResponse(context.state.currentSurvey)
+  },
+  submitNewSurvey (context, survey) {
+    return postNewSurvey(survey)
   }
 }
 
 const mutations = {
   // isolated data mutations
-  setSurveys(state, payload) {
+  setSurveys (state, payload) {
     state.surveys = payload.surveys
   },
-  setSurvey(state, payload) {
+  setSurvey (state, payload) {
     const nQuestions = payload.survey.questions.length
     for (let i = 0; i < nQuestions; i++) {
       payload.survey.questions[i].choice = null
     }
     state.currentSurvey = payload.survey
   },
-  setChoice(state, payload) {
-    const {questionId, choice} = payload
+  setChoice (state, payload) {
+    const { questionId, choice } = payload
     const nQuestions = state.currentSurvey.questions.length
     for (let i = 0; i < nQuestions; i++) {
       if (state.currentSurvey.questions[i].id === questionId) {
@@ -54,7 +55,7 @@ const mutations = {
 }
 
 const getters = {
-  // reusable data accessorsm
+  // reusable data accessors
 }
 
 const store = new Vuex.Store({
