@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 // imports of AJAX functions will go here
-import { fetchSurveys, fetchSurvey, saveSurveyResponse, postNewSurvey } from '@/api'
+import { fetchSurveys, fetchSurvey, saveSurveyResponse, postNewSurvey, saveSet, getSet } from '@/api'
 
 Vue.use(Vuex)
 
@@ -27,7 +27,14 @@ const actions = {
   },
   submitNewSurvey (context, survey) {
     return postNewSurvey(survey)
+  },
+  submitSet (context, set) {
+    return saveSet(set)
+  },
+  loadSet (context, set) {
+    return getSet()
   }
+
 }
 
 const mutations = {
