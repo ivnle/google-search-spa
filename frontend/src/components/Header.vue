@@ -2,12 +2,17 @@
 <nav class="navbar is-light" role="navigation" aria-label="main navigation">
   <div class="navbar-menu">
     <div class="navbar-start">
+
       <router-link to="/" class="navbar-item">
-        Home!!
+        Home
       </router-link>
 
       <router-link to="/surveys" class="navbar-item">
         Create Survey
+      </router-link>
+
+      <router-link to="/set" class="navbar-item">
+        New Set
       </router-link>
 
     </div>
