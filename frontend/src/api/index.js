@@ -7,17 +7,13 @@ export function getSet() {
 }
 
 export function saveSet(set) {
-  return axios.post(`${API_URL}/sets/`, set)
+  return axios.post(`${API_URL}/sets/`, set, { headers: { Authorization: `Bearer: ${jwt}` } })
 }
 
-// export function fetchSurvey(surveyId) {
-//   return axios.get(`${API_URL}/surveys/${surveyId}/`)
-// }
-//
-export function saveSurveyResponse(surveyResponse) {
-  return axios.put(`${API_URL}/surveys/${surveyResponse.id}/`, surveyResponse)
+export function authenticate (userData) {
+  return axios.post(`${API_URL}/login/`, userData)
 }
-//
-// export function postNewSurvey(survey) {
-//   return axios.post(`${API_URL}/surveys/`, survey)
-// }
+
+export function register (userData) {
+  return axios.post(`${API_URL}/register/`, userData)
+}

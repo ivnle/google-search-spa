@@ -6,6 +6,8 @@ import Insert from '@/components/Insert'
 import Survey from '@/components/Survey'
 import NewSurvey from '@/components/NewSurvey'
 import NewSet from '@/components/NewSet'
+import Login from '@/components/Login'
+import store from '@/store'
 
 Vue.use(Router)
 
@@ -34,7 +36,19 @@ export default new Router({
     },
     {
       path: '/set',
-      component: NewSet
+      component: NewSet,
+      beforeEnter (to, from, next) {
+        if (!store.getters.isAuthenticated) {
+          next({name: 'Login', query: {redirect: '/set'}})
+        } else {
+          next()
+        }
+      }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })
