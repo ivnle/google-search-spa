@@ -25,8 +25,12 @@
     <input type="text" id="notes" v-model="set.notes"><br>
 
     <div class="control">
-      <a class="button is-large is-primary" @click="submitSet">Submit</a>
-      <a class="button is-large is-primary" @click="loadSet">Load</a>
+      <a :class="submitState" @click="submitSet">
+        <span class="icon is-small">
+        <i :class="submitIcon"></i>
+        </span>
+        <span>{{ submitText }}</span>
+      </a>
     </div>
 
   </div>
@@ -34,6 +38,11 @@
 
 
 <script>
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   export default {
     data() {
       return {
@@ -44,13 +53,27 @@
           reps: 0,
           rpe: 0,
           notes: ''
-        }
+        },
+        submitState: "button is primary is-normal",
+        submitText: "save",
+        submitIcon: "fas fa-save",
       }
     },
     methods: {
       submitSet() {
+        this.submitState = "button is-loading";
         this.$store.dispatch('submitSet', this.set)
-          .then(() => this.$router.push('/'))
+          .then(async () => {
+            this.submitState = "button is-success";
+            this.submitText = "saved";
+            this.submitIcon = "fas fa-check";
+
+            await sleep(1000);
+            this.submitState = "button is primary is-normal";
+            this.submitText = "save";
+            this.submitIcon = "fas fa-save";
+
+          })
       },
       loadSet() {
         this.$store.dispatch('loadSet')

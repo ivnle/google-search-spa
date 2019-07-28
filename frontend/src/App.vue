@@ -5,7 +5,8 @@
       
       <router-link v-bind:to="'/'">      HOME</router-link  >   |  
       <router-link v-bind:to="'/insert'">INSERT</router-link>   |  
-      <router-link v-bind:to="'/search'">SEARCH</router-link>
+      <router-link v-bind:to="'/search'">SEARCH</router-link>   |  
+      <router-link v-bind:to="'/set'">NEW SET</router-link>
 
       <my-header></my-header>
 
@@ -15,7 +16,7 @@
     </template>
     
 <script>
-import MyHeader from '@/components/Header'
+import MyHeader from './components/Header'
 export default {
   name: 'App',
   components: { MyHeader }
@@ -23,5 +24,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~bulma/bulma'
+@import '~bulma/bulma';
 </style>
