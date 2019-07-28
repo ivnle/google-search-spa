@@ -13,7 +13,7 @@ def token_required(f):
         auth_headers = request.headers.get('Authorization', '').split()
 
         invalid_msg = {
-            'message': 'Invalid token. Registration and / or authentication required',
+            'message': 'Invalid token. Registeration and / or authentication required',
             'authenticated': False
         }
         expired_msg = {
@@ -32,7 +32,7 @@ def token_required(f):
                 raise RuntimeError('User not found')
             return f(user, *args, **kwargs)
         except jwt.ExpiredSignatureError:
-            return jsonify(expired_msg), 401  # 401 is Unauthorized HTTP status code
+            return jsonify(expired_msg), 401 # 401 is Unauthorized HTTP status code
         except (jwt.InvalidTokenError, Exception) as e:
             print(e)
             return jsonify(invalid_msg), 401
@@ -58,7 +58,7 @@ def sets(current_user):
         data = request.get_json()
         print(data, file=sys.stderr)
         _set = Set(
-            user_id=current_user,
+            user=current_user,
             exercise=data['exercise'],
             pounds=data['weight'],
             reps=data['reps'],

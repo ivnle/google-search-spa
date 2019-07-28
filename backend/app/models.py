@@ -31,7 +31,7 @@ class Set(db.Model):
     bodyweight = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<Set {}>'.format(self.movement)
+        return '<Set {}>'.format(self.exercise)
 
 
 class SetSchema(ma.ModelSchema):
@@ -49,6 +49,9 @@ class User(db.Model, UserMixin):
     def __init__(self, email, password):
         self.email = email
         self.password_hash = generate_password_hash(password, method='sha256')
+
+    def __repr__(self):
+        return '<User {}>'.format(self.email)
 
     @classmethod
     def authenticate(cls, **kwargs):
