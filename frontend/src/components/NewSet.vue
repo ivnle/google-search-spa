@@ -67,12 +67,19 @@
             this.submitState = "button is-success";
             this.submitText = "saved";
             this.submitIcon = "fas fa-check";
-
             await sleep(1000);
             this.submitState = "button is primary is-normal";
             this.submitText = "save";
             this.submitIcon = "fas fa-save";
 
+          }, async () => {
+            this.submitState = "button is-danger";
+            this.submitText = "error";
+            this.submitIcon = "fas fa-times";
+            await sleep(1000);
+            this.submitState = "button is primary is-normal";
+            this.submitText = "save";
+            this.submitIcon = "fas fa-save";
           })
       },
       loadSet() {
