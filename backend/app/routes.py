@@ -7,6 +7,39 @@ import jwt
 import sys
 
 
+def token_required(f):
+    @wraps(f)
+    def _verify(*args, **kwargs):
+        auth_headers = request.headers.get('Authorization', '').split()
+
+        invalid_msg = {
+            'message': 'Invalid token. Registration and / or authentication required',
+            'authenticated': False
+        }
+        expired_msg = {
+            'message': 'Expired token. Reauthentication required.',
+            'authenticated': False
+        }
+
+        if len(auth_headers) != 2:
+            return jsonify(invalid_msg), 401
+
+        try:
+            token = auth_headers[1]
+            data = jwt.decode(token, current_app.config['SECRET_KEY'])
+            user = User.query.filter_by(email=data['sub']).first()
+            if not user:
+                raise RuntimeError('User not found')
+            return f(user, *args, **kwargs)
+        except jwt.ExpiredSignatureError:
+            return jsonify(expired_msg), 401  # 401 is Unauthorized HTTP status code
+        except (jwt.InvalidTokenError, Exception) as e:
+            print(e)
+            return jsonify(invalid_msg), 401
+
+    return _verify
+
+
 @app.route('/search', methods=['GET'])
 def search():
     data = request.args.get("name")
@@ -17,13 +50,15 @@ def search():
 
 
 @app.route('/sets/', methods=['GET', 'POST'])
-def sets():
+@token_required
+def sets(current_user):
     if request.method == 'GET':
         return jsonify("hello, this is /sets from flask")
     elif request.method == 'POST':
         data = request.get_json()
         print(data, file=sys.stderr)
-        _set = SetAnon(
+        _set = Set(
+            user_id=current_user,
             exercise=data['exercise'],
             pounds=data['weight'],
             reps=data['reps'],
@@ -61,34 +96,3 @@ def login():
     return jsonify({'token': token.decode('UTF-8')})
 
 
-def token_required(f):
-    @wraps(f)
-    def _verify(*args, **kwargs):
-        auth_headers = request.headers.get('Authorization', '').split()
-
-        invalid_msg = {
-            'message': 'Invalid token. Registration and / or authentication required',
-            'authenticated': False
-        }
-        expired_msg = {
-            'message': 'Expired token. Reauthentication required.',
-            'authenticated': False
-        }
-
-        if len(auth_headers) != 2:
-            return jsonify(invalid_msg), 401
-
-        try:
-            token = auth_headers[1]
-            data = jwt.decode(token, current_app.config['SECRET_KEY'])
-            user = User.query.filter_by(email=data['sub']).first()
-            if not user:
-                raise RuntimeError('User not found')
-            return f(user, *args, **kwargs)
-        except jwt.ExpiredSignatureError:
-            return jsonify(expired_msg), 401  # 401 is Unauthorized HTTP status code
-        except (jwt.InvalidTokenError, Exception) as e:
-            print(e)
-            return jsonify(invalid_msg), 401
-
-    return _verify
